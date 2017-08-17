@@ -1,2 +1,2 @@
 # moviedb
-Movie list app
+Movie list app for final project at Indonesia Android Kejar.
