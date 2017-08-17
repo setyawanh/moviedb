@@ -1,9 +1,13 @@
 package com.setyawan.moviedb.utils;
 
+import com.setyawan.moviedb.model.CastDetails;
 import com.setyawan.moviedb.model.CastList;
 import com.setyawan.moviedb.model.GenreList;
+import com.setyawan.moviedb.model.MovieCredits;
 import com.setyawan.moviedb.model.MovieList;
 import com.setyawan.moviedb.model.ReviewList;
+import com.setyawan.moviedb.model.Season;
+import com.setyawan.moviedb.model.ShowCredits;
 import com.setyawan.moviedb.model.ShowsList;
 import com.setyawan.moviedb.model.TrailerList;
 
@@ -49,8 +53,8 @@ public interface ApiInterface {
     @GET("{type}/{id}/videos?api_key=" + API_KEY)
     Call<TrailerList> getTrailer(@Path("type") String type, @Path("id") int id);
 
-    @GET("movie/{id}/reviews?api_key=" + API_KEY)
-    Call<ReviewList> getReview(@Path("id") int id);
+    @GET("{type}/{id}/reviews?api_key=" + API_KEY)
+    Call<ReviewList> getReview(@Path("type") String type, @Path("id") int id);
 
     @GET("{type}/{id}/credits?api_key=" + API_KEY)
     Call<CastList> getCast(@Path("type") String type, @Path("id") int id);
@@ -64,4 +68,15 @@ public interface ApiInterface {
     @GET("search/tv?api_key=" + API_KEY)
     Call<ShowsList> getSearchShows(@Query("query") String q);
 
+    @GET("tv/{id}/season/{season}?api_key=" + API_KEY)
+    Call<Season> getSeason(@Path("id") int id, @Path("season") int season);
+
+    @GET("person/{id}?api_key=" + API_KEY)
+    Call<CastDetails> getCast(@Path("id") int id);
+
+    @GET("person/{id}/movie_credits?api_key=" + API_KEY)
+    Call<MovieCredits> getMovieCredit(@Path("id") int id);
+
+    @GET("person/{id}/tv_credits?api_key=" + API_KEY)
+    Call<ShowCredits> getShowCredit(@Path("id") int id);
 }

@@ -16,7 +16,7 @@
             android:id="@+id/thumbnail"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="#000"
+            android:src="@drawable/cast"
             android:scaleType="centerCrop"
             android:layout_weight="0"/>
 

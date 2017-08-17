@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.setyawan.moviedb.DetailShowsActivity">
+    tools:context="com.setyawan.moviedb.DetailMovieActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -93,7 +93,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <!-- Content -->
-    <include layout="@layout/content_detail_shows" />
+    <include layout="@layout/content_detail_movie" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_yes"
@@ -104,5 +104,4 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_fav_no"
         android:visibility="visible"/>
-
 </android.support.design.widget.CoordinatorLayout>

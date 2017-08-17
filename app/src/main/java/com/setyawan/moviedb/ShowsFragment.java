@@ -50,7 +50,6 @@ public class ShowsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ShowsAdapter adapter;
-    private ApiInterface apiInterface;
     private List<Shows> showsList = new ArrayList<>();
     private ProgressBar progress;
     private DBHelper dbHelper;
@@ -145,7 +144,7 @@ public class ShowsFragment extends Fragment {
     }
 
     private void getShows(){
-        apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+        ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
         switch (type) {
             case TYPE_AIRING_TODAY:
                 call = apiInterface.getAiringToday(currentPage);
@@ -292,7 +291,7 @@ public class ShowsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(type.equals(TYPE_FAVORITE)) {
+        if(type.equals(TYPE_FAVORITE) && recyclerView.getLayoutManager() == gridLayoutManager) {
             recyclerView.setAdapter(new FavoriteShowAdapter(getContext()));
         }
     }

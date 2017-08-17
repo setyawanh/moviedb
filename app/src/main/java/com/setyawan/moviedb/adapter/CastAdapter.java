@@ -1,6 +1,10 @@
 package com.setyawan.moviedb.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.GsonBuilder;
+import com.setyawan.moviedb.DetailCastActivity;
 import com.setyawan.moviedb.R;
 import com.setyawan.moviedb.model.Cast;
 import com.setyawan.moviedb.utils.ApiInterface;
@@ -36,14 +42,24 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastHolder> {
     }
 
     @Override
-    public void onBindViewHolder(CastHolder holder, int position) {
-        Cast cast = castList.get(position);
+    public void onBindViewHolder(final CastHolder holder, int position) {
+        final Cast cast = castList.get(position);
         Picasso.with(context)
                 .load(ApiInterface.BASE_IMG_URL+cast.getProfilePath())
                 .placeholder(R.drawable.cast)
                 .into(holder.image);
         holder.cast.setText(cast.getName());
         holder.as.setText(cast.getCharacter());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, DetailCastActivity.class);
+                i.putExtra("cast", new GsonBuilder().create().toJson(cast));
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context
+                        ,holder.image,"imageTrans");
+                ActivityCompat.startActivity(context,i,options.toBundle());
+            }
+        });
     }
 
     @Override

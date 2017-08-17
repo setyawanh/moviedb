@@ -50,7 +50,6 @@ public class MovieFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private MovieAdapter adapter;
-    private ApiInterface apiInterface;
     private List<Movie> movieList = new ArrayList<>();
     private ProgressBar progress;
     private DBHelper dbHelper;
@@ -67,7 +66,7 @@ public class MovieFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_main,container,false);
+        return inflater.inflate(R.layout.activity_movie,container,false);
     }
 
     @Override
@@ -145,7 +144,7 @@ public class MovieFragment extends Fragment {
     }
 
     private void getMovie(){
-        apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+        ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
         switch (type) {
             case TYPE_POPULAR:
                 call = apiInterface.getPopular(currentPage);
@@ -293,7 +292,7 @@ public class MovieFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(type.equals(TYPE_FAVORITE)) {
+        if(type.equals(TYPE_FAVORITE) && recyclerView.getLayoutManager() == gridLayoutManager) {
             recyclerView.setAdapter(new FavoriteAdapter(getContext()));
         }
     }

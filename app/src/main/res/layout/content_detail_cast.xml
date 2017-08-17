@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.setyawan.moviedb.DetailShowsActivity"
-    tools:showIn="@layout/activity_detail_shows">
+    tools:showIn="@layout/activity_detail_cast">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,10 +16,9 @@
 
         <!--SYNOPSYS-->
         <TextView
-            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Synopsis"
+            android:text="Biography"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -28,98 +27,67 @@
             android:id="@+id/overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Synopsis"
+            android:text="Biography"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textStyle="italic" />
 
-        <!--TRAILERS-->
+        <!--MOVIES-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Trailers"
+            android:text="Movies"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <ProgressBar
-            android:id="@+id/pb_trailers"
+            android:id="@+id/pb_movies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/trailer"
+            android:id="@+id/movies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/no_trailer"
+            android:id="@+id/no_movies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No Trailer"
+            android:text="No movie data"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textStyle="italic|bold"
             android:visibility="gone"/>
 
-        <!--CAST-->
+        <!--TV SHOWS-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Cast"
+            android:text="tv shows"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <ProgressBar
-            android:id="@+id/pb_cast"
+            android:id="@+id/pb_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/casts"
+            android:id="@+id/tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/no_cast"
+            android:id="@+id/no_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No cast data"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textStyle="italic|bold"
-            android:visibility="gone"/>
-
-        <!--SEASON-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Seasons"
-            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/season"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ProgressBar
-            android:id="@+id/pb_season"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-        <TextView
-            android:id="@+id/no_season"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="No Season Data"
+            android:text="No TV Data"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textStyle="italic|bold"

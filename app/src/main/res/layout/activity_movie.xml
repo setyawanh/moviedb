@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.setyawan.moviedb.MainActivity">
+    android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="No TV Shows"
+                android:text="No movie"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:visibility="gone" />
@@ -51,6 +50,6 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         android:layout_gravity="bottom"
-        app:menu="@menu/show_nav"/>
+        app:menu="@menu/main_nav"/>
 
 </FrameLayout>

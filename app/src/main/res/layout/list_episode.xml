@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/colorPrimary"
+            android:text="0"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="0"/>
+
+        <TextView
+            android:id="@+id/episode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:gravity="center_vertical"
+            android:text="Episode X"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/airing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Date"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="italic"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:src="@drawable/poster_placeholder"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Summary"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:layout_marginBottom="5dp"/>
+    </LinearLayout>
+</LinearLayout>

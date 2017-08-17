@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.GsonBuilder;
-import com.setyawan.moviedb.DetailActivity;
+import com.setyawan.moviedb.DetailMovieActivity;
 import com.setyawan.moviedb.R;
 import com.setyawan.moviedb.model.Movie;
 import com.setyawan.moviedb.utils.ApiInterface;
@@ -57,7 +57,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, DetailActivity.class);
+                Intent i = new Intent(context, DetailMovieActivity.class);
                 i.putExtra("movie", new GsonBuilder().create().toJson(movie));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context
                         ,holder.poster,"imageTrans");

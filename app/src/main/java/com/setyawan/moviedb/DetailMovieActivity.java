@@ -1,12 +1,16 @@
 package com.setyawan.moviedb;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -40,10 +45,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailMovieActivity extends AppCompatActivity {
     private CollapsingToolbarLayout collapsingToolbar;
-    private ImageView imgHeader, imgPoster;
-    private TextView txtTitle, txtOverview, txtDate, txtGenre;
+    private ImageView imgPoster;
     private RecyclerView trailerView, reviewView, castView;
     private List<Trailer> trailerList;
     private List<Review> reviewList;
@@ -56,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_detail_movie);
         //Set toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,12 +70,12 @@ public class DetailActivity extends AppCompatActivity {
 
         // Binding
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        imgHeader = (ImageView) findViewById(R.id.backdrop);
+        ImageView imgHeader = (ImageView) findViewById(R.id.backdrop);
         imgPoster = (ImageView) findViewById(R.id.poster);
-        txtTitle = (TextView) findViewById(R.id.title);
-        txtOverview = (TextView) findViewById(R.id.overview);
-        txtDate = (TextView) findViewById(R.id.date);
-        txtGenre = (TextView) findViewById(R.id.genre);
+        TextView txtTitle = (TextView) findViewById(R.id.title);
+        TextView txtOverview = (TextView) findViewById(R.id.overview);
+        TextView txtDate = (TextView) findViewById(R.id.date);
+        TextView txtGenre = (TextView) findViewById(R.id.genre);
         trailerView = (RecyclerView) findViewById(R.id.trailer);
         reviewView = (RecyclerView) findViewById(R.id.reviews);
         castView = (RecyclerView) findViewById(R.id.casts);
@@ -86,7 +90,7 @@ public class DetailActivity extends AppCompatActivity {
         //setup sqlite
         mDbHelper = new DBHelper(this);
 
-        // Get intent from MainActivity
+        // Get intent
         Intent i = getIntent();
         movie = new GsonBuilder().create().fromJson(i.getStringExtra("movie"),Movie.class);
         collapsingToolbar.setTitle(movie.getTitle());
@@ -95,17 +99,34 @@ public class DetailActivity extends AppCompatActivity {
                 .load(ApiInterface.BASE_BACK_URL + movie.getBackdropPath())
                 .placeholder(R.drawable.poster_placeholder)
                 .into(imgHeader);
+
         Picasso.with(this)
                 .load(ApiInterface.BASE_IMG_URL + movie.getPosterPath())
                 .placeholder(R.drawable.poster_placeholder)
-                .into(imgPoster);
+                .into(imgPoster, new it.sephiroth.android.library.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) imgPoster.getDrawable()).getBitmap();
+                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                            public void onGenerated(Palette palette) {
+                                applyPalette(palette);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
         String title = (movie.getTitle().equals(movie.getOriginalTitle()))? "<b>"+movie.getTitle()+"</b>" : "<b>"+movie.getTitle()+"</b><br><i>("+movie.getOriginalTitle()+")</i>";
 
         txtTitle.setText(Html.fromHtml(title));
         txtDate.setText(movie.getReleaseDate().split("-")[0] + " \u25CF " + String.valueOf(movie.getVoteAverage()));
         txtGenre.setText(mDbHelper.getGenre(movie.getGenreIds()));
 
-        txtOverview.setText(movie.getOverview());
+        String overview = (movie.getOverview().equals(""))? "No synopsis found" : movie.getOverview();
+        txtOverview.setText(overview);
         trailerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         castView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         reviewView.setLayoutManager(new LinearLayoutManager(this));
@@ -166,7 +187,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(Call<TrailerList> call, Response<TrailerList> response) {
                 pbTrailers.setVisibility(View.GONE);
                 trailerList = response.body().getResults();
-                TrailerAdapter trailerAdapter = new TrailerAdapter(DetailActivity.this,trailerList);
+                TrailerAdapter trailerAdapter = new TrailerAdapter(DetailMovieActivity.this,trailerList);
                 trailerView.setAdapter(trailerAdapter);
                 TextView txt = (TextView) findViewById(R.id.no_trailer);
                 if(trailerList.size()==0) txt.setVisibility(View.VISIBLE);
@@ -185,7 +206,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(Call<CastList> call, Response<CastList> response) {
                 pbCast.setVisibility(View.GONE);
                 castList = response.body().getCast();
-                CastAdapter castAdapter = new CastAdapter(DetailActivity.this,castList);
+                CastAdapter castAdapter = new CastAdapter(DetailMovieActivity.this,castList);
                 castView.setAdapter(castAdapter);
                 TextView txt = (TextView) findViewById(R.id.no_cast);
                 if(castList.size()==0) txt.setVisibility(View.VISIBLE);
@@ -197,14 +218,14 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         //get review
-        Call<ReviewList> rCall = apiInterface.getReview(id);
+        Call<ReviewList> rCall = apiInterface.getReview("movie",id);
         pbReviews.setVisibility(View.VISIBLE);
         rCall.enqueue(new Callback<ReviewList>() {
             @Override
             public void onResponse(Call<ReviewList> call, Response<ReviewList> response) {
                 pbReviews.setVisibility(View.GONE);
                 reviewList = response.body().getResults();
-                ReviewAdapter reviewAdapter = new ReviewAdapter(DetailActivity.this, reviewList);
+                ReviewAdapter reviewAdapter = new ReviewAdapter(DetailMovieActivity.this, reviewList);
                 reviewView.setAdapter(reviewAdapter);
                 TextView txt = (TextView) findViewById(R.id.no_review);
                 if(reviewList.size()==0) txt.setVisibility(View.VISIBLE);
@@ -223,6 +244,19 @@ public class DetailActivity extends AppCompatActivity {
         } else  {
             fab.setImageResource(R.drawable.ic_fav_yes);
         }
+    }
+
+    private void applyPalette(Palette palette) {
+        int primaryDark = getResources().getColor(R.color.colorPrimaryDark);
+        int primary = getResources().getColor(R.color.colorPrimary);
+        int lightVibrantColor = palette.getLightVibrantColor(getResources().getColor(android.R.color.white));
+        int vibrantColor = palette.getVibrantColor(getResources().getColor(R.color.colorAccent));
+
+        collapsingToolbar.setContentScrimColor(palette.getDarkMutedColor(primaryDark));
+        LinearLayout bar = (LinearLayout) findViewById(R.id.bar);
+        bar.setBackgroundColor(palette.getDarkMutedColor(primaryDark));
+        fab.setRippleColor(lightVibrantColor);
+        fab.setBackgroundTintList(ColorStateList.valueOf(vibrantColor));
     }
 
     @Override
